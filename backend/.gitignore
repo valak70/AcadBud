@@ -1,0 +1,42 @@
+# Node modules
+node_modules/
+
+# Environment variables
+.env
+
+# Logs
+logs
+*.log
+npm-debug.log*
+
+# OS specific
+.DS_Store
+Thumbs.db
+
+# Runtime data
+pids
+*.pid
+*.seed
+
+# IDEs and editors
+.vscode/
+.idea/
+
+# Coverage
+coverage/
+
+# Build directories
+dist/
+build/
+
+# MongoDB dump files
+dump/
+
+# Optional npm cache
+.npm/
+
+# Tests
+*.test.js
+*.spec.js
+
+config
