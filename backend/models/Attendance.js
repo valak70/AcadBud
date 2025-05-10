@@ -6,15 +6,15 @@ const attendanceSchema = new mongoose.Schema({
     ref: 'User',
     required: true
   },
-  subjectCode: {
-    type: String,
-    required: true
+  courseId: {
+    type: mongoose.Schema.Types.ObjectId,
+    required: true,
   },
   date: {
     type: Date,
     required: true
   },
-  startTime: { // single string is enough to uniquely identify the slot
+  startTime: {
     type: String,
     required: true
   },
@@ -25,7 +25,7 @@ const attendanceSchema = new mongoose.Schema({
   }
 });
 
-// Prevent duplicate marking of the same subject's same class on same day
-attendanceSchema.index({ user: 1, subjectCode: 1, date: 1, startTime: 1 }, { unique: true });
+// Prevent duplicate entry of same course on same day and slot
+attendanceSchema.index({ user: 1, courseId: 1, date: 1, startTime: 1 }, { unique: true });
 
 module.exports = mongoose.model('Attendance', attendanceSchema);

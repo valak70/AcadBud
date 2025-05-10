@@ -1,6 +1,6 @@
-async function removeTimetableEntriesBySubjectCode(user, subjectCode) {
+async function removeTimetableEntriesByCourseId(user, courseId) {
     const before = user.timetable.length;
-    user.timetable = user.timetable.filter(entry => entry.subjectCode !== subjectCode);
+    user.timetable = user.timetable.filter(entry => !entry.courseId.equals(courseId));
     return before !== user.timetable.length; // returns true if anything was removed
   }
   
@@ -29,12 +29,12 @@ exports.getTimetable = async (req, res) => {
   };
   exports.removeSingleEntry = async (req, res) => {
     try {
-      const { day, startTime, subjectCode } = req.body;
-      if (!day || !startTime || !subjectCode) {
+      const { day, startTime, courseId } = req.body;
+      if (!day || !startTime || !courseId) {
         return res.status(400).json({ message: "day, startTime, and subjectCode are required" });
       }
   
-      const user = await User.findById(req.userId);
+      const user = req.user;
       const before = user.timetable.length;
   
       user.timetable = user.timetable.filter(
@@ -42,7 +42,7 @@ exports.getTimetable = async (req, res) => {
           !(
             entry.day === day &&
             entry.startTime === startTime &&
-            entry.subjectCode === subjectCode
+            entry.courseId.equals(courseId)
           )
       );
   
@@ -63,10 +63,10 @@ exports.getTimetable = async (req, res) => {
   
   exports.removeAllEntriesForSubject = async (req, res) => {
     try {
-      const { subjectCode } = req.params;
-      const user = await User.findById(req.userId);
+      const { courseId } = req.params;
+      const user = req.user;
   
-      const deleted = await removeTimetableEntriesBySubjectCode(user, subjectCode);
+      const deleted = await removeTimetableEntriesByCourseId(user, courseId);
   
       if (!deleted) {
         return res.status(404).json({ message: "No timetable entries found for this subject" });
@@ -81,6 +81,6 @@ exports.getTimetable = async (req, res) => {
     }
   };
   
-  module.exports.removeTimetableEntriesBySubjectCode = removeTimetableEntriesBySubjectCode;
+  module.exports.removeTimetableEntriesByCourseId = removeTimetableEntriesByCourseId;
   
   

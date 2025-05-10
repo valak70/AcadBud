@@ -6,6 +6,6 @@ const { markAttendance, getAttendanceSummary } = require('../controllers/attenda
 router.use(requireAuth); // Protect all attendance routes
 
 router.post('/mark', markAttendance);
-router.get('/summary', getAttendanceSummary);
+router.get('/summary/:courseId', getAttendanceSummary);
 
 module.exports = router;

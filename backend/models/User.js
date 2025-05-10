@@ -7,18 +7,19 @@ const userSchema = new mongoose.Schema({
 
   timetable: [{
     day: { type: String, required: true },
-    subjectCode: String,
-    subjectName: String,
+    courseId: { type: mongoose.Schema.Types.ObjectId, required: true },
     startTime: String,
     endTime: String
   }],
 
   courses: [{
-    subjectCode: { type: String, required: true, unique: true},
-    subjectName: { type: String, required: true },
-    credits: Number,
-    expectedGrade: Number
-  }]
+  _id: { type: mongoose.Schema.Types.ObjectId, auto: true },
+  subjectName: { type: String, required: true },
+  subjectCode: String,
+  credits: Number,
+  expectedGrade: String
+}]
+
 });
 
 module.exports = mongoose.model('User', userSchema);

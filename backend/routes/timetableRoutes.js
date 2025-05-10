@@ -8,6 +8,6 @@ router.use(requireAuth); // All routes protected
 router.get('/', getTimetable);
 router.put('/', updateTimetable);
 router.delete('/entry', removeSingleEntry);
-router.delete('/subject/:subjectCode', removeAllEntriesForSubject);
+router.delete('/course/:courseId', removeAllEntriesForSubject);
 
 module.exports = router;

@@ -3,16 +3,16 @@ const User = require('../models/User');
 
 // 🎯 Mark Attendance
 exports.markAttendance = async (req, res) => {
-  const { subjectCode, date, startTime, status } = req.body;
+  const { courseId, date, startTime, status } = req.body;
 
-  if (!subjectCode || !date || !startTime || !status) {
+  if (!courseId || !date || !startTime || !status) {
     return res.status(400).json({ error: 'Missing required fields' });
   }
 
   try {
     // Ensure the subject exists in user's timetable
     const isValidSubject = req.user.timetable.some(
-      (slot) => slot.subjectCode === subjectCode && slot.startTime === startTime
+      (slot) => slot.courseId.equals(courseId) && slot.startTime === startTime
     );
 
     if (!isValidSubject) {
@@ -21,7 +21,7 @@ exports.markAttendance = async (req, res) => {
 
     // Create or update attendance
     const attendance = await Attendance.findOneAndUpdate(
-      { user: req.user._id, subjectCode, date, startTime },
+      { user: req.user._id, courseId, date, startTime },
       { status },
       { upsert: true, new: true }
     );
@@ -34,20 +34,20 @@ exports.markAttendance = async (req, res) => {
 
 // 🎯 Get Attendance Summary
 exports.getAttendanceSummary = async (req, res) => {
-  const { subjectCode } = req.query;
+  const { courseId } = req.params;
 
-  if (!subjectCode) {
-    return res.status(400).json({ error: 'Subject code is required' });
+  if (!courseId) {
+    return res.status(400).json({ error: 'CourseId is required' });
   }
 
   try {
-    const totalClasses = await Attendance.countDocuments({ user: req.user._id, subjectCode });
-    const presentCount = await Attendance.countDocuments({ user: req.user._id, subjectCode, status: 'present' });
+    const totalClasses = await Attendance.countDocuments({ user: req.user._id, courseId });
+    const presentCount = await Attendance.countDocuments({ user: req.user._id, courseId, status: 'present' });
 
     const percentage = totalClasses > 0 ? (presentCount / totalClasses) * 100 : 0;
 
     res.status(200).json({
-      subjectCode,
+      courseId,
       totalClasses,
       presentCount,
       percentage: percentage.toFixed(2)
