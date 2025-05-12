@@ -1,3 +1,5 @@
+const { subscribe } = require("../routes/courseRoutes");
+
 async function removeTimetableEntriesByCourseId(user, courseId) {
     const before = user.timetable.length;
     user.timetable = user.timetable.filter(entry => !entry.courseId.equals(courseId));
@@ -5,28 +7,64 @@ async function removeTimetableEntriesByCourseId(user, courseId) {
   }
   
 exports.getTimetable = async (req, res) => {
-    try {
-      res.json({ timetable: req.user.timetable });
-    } catch (err) {
-      res.status(500).json({ error: 'Failed to fetch timetable' });
-    }
-  };
+  try {
+    const { timetable, courses } = req.user;
+
+    const enrichedTimetable = timetable.map(entry => {
+      const course = courses.find(c => c._id.toString() === entry.courseId.toString());
+
+      return {
+        _id: entry._id,
+        day: entry.day,
+        startTime: entry.startTime,
+        endTime: entry.endTime,
+        courseId: entry.courseId,
+        subjectName: course ? course.subjectName : "Unknown Course",
+        subjectCode: course ? course.subjectCode : "Unknown Code",
+      };
+    });
+
+    res.json(enrichedTimetable);
+  } catch (err) {
+    console.error("Timetable fetch error:", err);
+    res.status(500).json({ error: "Failed to fetch timetable" });
+  }
+};
+
   
   exports.updateTimetable = async (req, res) => {
-    const { timetable } = req.body;
-  
-    if (!Array.isArray(timetable)) {
-      return res.status(400).json({ error: 'Timetable must be an array' });
-    }
-  
-    try {
-      req.user.timetable = timetable;
-      await req.user.save();
-      res.json({ message: 'Timetable updated', timetable: req.user.timetable });
-    } catch (err) {
-      res.status(500).json({ error: 'Failed to update timetable' });
-    }
-  };
+  const { timetable } = req.body;
+
+  if (!Array.isArray(timetable)) {
+    return res.status(400).json({ error: 'Timetable must be an array' });
+  }
+
+  try {
+    const existingTimetable = req.user.timetable;
+
+    // Merge logic: Replace existing entries with the same day/time, add new ones
+    const updatedTimetable = [...existingTimetable];
+    timetable.forEach(newEntry => {
+      const existingIndex = existingTimetable.findIndex(
+        entry => entry.day === newEntry.day && entry.startTime === newEntry.startTime
+      );
+
+      if (existingIndex !== -1) {
+        // Update existing entry
+        updatedTimetable[existingIndex] = newEntry;
+      } else {
+        // Add new entry
+        updatedTimetable.push(newEntry);
+      }
+    });
+
+    req.user.timetable = updatedTimetable;
+    await req.user.save();
+    res.json({ message: 'Timetable updated', timetable: req.user.timetable });
+  } catch (err) {
+    res.status(500).json({ error: 'Failed to update timetable' });
+  }
+};
   exports.removeSingleEntry = async (req, res) => {
     try {
       const { day, startTime, courseId } = req.body;

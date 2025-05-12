@@ -18,7 +18,11 @@ const courseRoutes = require('./routes/courseRoutes');
 const app = express();
 
 // Middleware
-app.use(cors());
+app.use(cors({
+  origin: "http://localhost:5173", 
+  credentials: true
+}));
+
 app.use(express.json());
 app.use(morgan('dev'));
 app.use(cookieParser());
@@ -29,7 +33,7 @@ app.use('/api/auth', authRoutes);
 app.use('/api/timetable', timetableRoutes);
 app.use('/api/attendance', attendanceRoutes);
 app.use('/api/gpa', gpaRoutes);
-app.use('/api/course', courseRoutes);
+app.use('/api/courses', courseRoutes);
 
 // MongoDB Connection
 const startServer = async () => {
@@ -47,3 +51,4 @@ const startServer = async () => {
   };
   
   startServer();
+

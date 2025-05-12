@@ -17,7 +17,8 @@ const userSchema = new mongoose.Schema({
   subjectName: { type: String, required: true },
   subjectCode: String,
   credits: Number,
-  expectedGrade: String
+  expectedGrade: String,
+  attendanceThreshold: { type: Number, default: 75 },
 }]
 
 });

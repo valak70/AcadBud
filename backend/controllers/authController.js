@@ -19,7 +19,7 @@ exports.register = async (req, res) => {
       maxAge: 7 * 24 * 60 * 60 * 1000 // 7 days
     });
     
-    res.status(200).json({ message: 'Login successful' });
+    res.status(200).json({user:{_id: user._id,name: user.name,email: user.email},message: 'Registration successful'});;
   } catch (err) {
     res.status(500).json({ error: 'Server error' });
   }
@@ -41,7 +41,7 @@ exports.login = async (req, res) => {
       sameSite: 'strict',
       maxAge: 7 * 24 * 60 * 60 * 1000 // 7 days
     });
-    res.status(200).json({ message: 'Login successful' });
+    res.status(200).json({user:{_id: user._id,name: user.name,email: user.email}, message: 'Login successful' });
   } catch (err) {
     res.status(500).json({ error: 'Server error' });
   }
@@ -53,5 +53,16 @@ exports.logout = async (req, res) => {
     res.status(200).json({ message: 'Logout successful' });
   } catch (err) {
     res.status(500).json({ error: 'Server error' });
+  }
+};
+
+
+exports.getCurrentUser = async (req, res) => {
+  try {
+    const user = await User.findById(req.userId).select("-password");
+    if (!user) return res.status(404).json({ message: "User not found" });
+    res.json(user);
+  } catch (err) {
+    res.status(500).json({ message: "Server error" });
   }
 };
