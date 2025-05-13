@@ -90,10 +90,8 @@ exports.deleteCourse = async (req, res) => {
       return res.status(404).json({ message: "Course not found" });
     }
 
-    await user.save(); // Save after removing course
-
-    // Now remove timetable entries
-    await removeTimetableEntriesByCourseId(user, courseId);
+    user.courses = user.courses.filter(course => !course._id.equals(courseId));
+    user.timetable = user.timetable.filter(entry => !entry.courseId.equals(courseId));
     await user.save(); // Save after modifying timetable
 
     res.json({ message: "Course and related timetable entries deleted successfully." });

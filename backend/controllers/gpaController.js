@@ -9,22 +9,16 @@ exports.calculateGPA = async (req, res) => {
 
     let totalCredits = 0;
     let weightedSum = 0;
-    let missingCourses = [];
 
     user.courses.forEach(course => {
-      if (course.credits == null || course.expectedGrade == null) {
-        missingCourses.push(course.subjectCode || course.subjectName || 'Unnamed Course');
-      } else {
+      if (course.credits != null && course.expectedGrade != "") {
         totalCredits += course.credits;
         weightedSum += course.credits * course.expectedGrade;
       }
     });
 
-    if (missingCourses.length > 0) {
-      return res.status(400).json({
-        message: "Some courses are missing credits or expected grades",
-        missingCourses
-      });
+    if (totalCredits === 0) {
+      return res.status(400).json({ message: "No valid data to calculate GPA" });
     }
 
     const GPA = (weightedSum / totalCredits).toFixed(2);
@@ -34,6 +28,7 @@ exports.calculateGPA = async (req, res) => {
     res.status(500).json({ message: "Server error" });
   }
 };
+
 
 exports.calculateCGPA = async (req, res) => {
   try {
