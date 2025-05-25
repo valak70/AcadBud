@@ -4,6 +4,8 @@ const cors = require('cors');
 const morgan = require('morgan');
 const dotenv = require('dotenv');
 const cookieParser = require('cookie-parser');
+const cron = require('node-cron');
+const { checkAndSendNotifications } = require('./utils/notificationScheduler');
 
 
 dotenv.config();
@@ -13,7 +15,7 @@ const timetableRoutes = require('./routes/timetableRoutes');
 const attendanceRoutes = require('./routes/attendanceRoutes');
 const gpaRoutes = require('./routes/gpaRoutes');
 const courseRoutes = require('./routes/courseRoutes');
-
+const subscriptionRoutes = require('./routes/subscriptionRoutes');
 
 const app = express();
 
@@ -34,6 +36,7 @@ app.use('/api/timetable', timetableRoutes);
 app.use('/api/attendance', attendanceRoutes);
 app.use('/api/gpa', gpaRoutes);
 app.use('/api/courses', courseRoutes);
+app.use('/api/notification', subscriptionRoutes);
 
 // MongoDB Connection
 const startServer = async () => {
@@ -52,3 +55,8 @@ const startServer = async () => {
   
   startServer();
 
+
+cron.schedule('* * * * *', () => {
+  checkAndSendNotifications();
+  console.log('Checking for classes');
+});

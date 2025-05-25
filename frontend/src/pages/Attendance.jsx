@@ -67,11 +67,7 @@ const Attendance = () => {
   }, [courses]);
 
   // Debug function to check timetable data
-  const debugTimetableData = (courseId) => {
-    console.log("All timetable entries:", timetable);
-    console.log("Filtered entries for course:", courseId,
-      timetable.filter(t => t.courseId === courseId));
-  };
+  
 
   const handleStatusChange = (courseId, date, startTime, value) => {
     setSlotSelections(prev => ({
@@ -162,9 +158,7 @@ const Attendance = () => {
 
           // Get slots and debug if needed
           const slots = getUpcomingAndRecentSlots(timetable, course._id, 3);
-          if (slots.length === 0) {
-            debugTimetableData(course._id);
-          }
+          
 
           return (
             <div key={course._id} className={`p-4 rounded-lg shadow-sm border ${color} self-start`}>
@@ -216,7 +210,7 @@ const Attendance = () => {
                     })
                   ) : (
                     <p className="text-sm text-gray-500">
-                      No upcoming/recent slots found. Check console for debug info.
+                      No upcoming/recent slots found.
                     </p>
                   )}
 

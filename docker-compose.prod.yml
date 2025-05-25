@@ -1,0 +1,34 @@
+
+
+services:
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    image: prod-backend
+    container_name: prod_backend
+    env_file:
+      - ./backend/.env
+    restart: unless-stopped
+    expose:
+      - "5000"
+    networks:
+      - app
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile.prod
+    image: prod-client
+    container_name: prod_client
+    env_file:
+      - ./frontend/.env
+    depends_on:
+      - backend
+    ports:
+      - "80:80"
+    networks:
+      - app
+
+networks:
+  app:

@@ -9,8 +9,15 @@ import Courses from "./pages/Courses";
 import Timetable from "./pages/Timetable";
 import Attendance from "./pages/Attendance";
 import Layout from "./components/Layout";
+import { useEffect } from 'react';
+import { subscribeUser } from './utils/subscribe';
+
 
 function App() {
+  useEffect(() => {
+    subscribeUser();
+  }, []);
+
   return (
     <Router>
       <AuthProvider>
