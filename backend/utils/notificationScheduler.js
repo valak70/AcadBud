@@ -45,9 +45,10 @@ const checkAndSendNotifications = async () => {
       }
 
       for (const classEntry of classesToNotify) {
+        const subjectName = user.courses.find(course => course._id.toString() === classEntry.courseId)?.name || 'Unknown Course';
         const payload = JSON.stringify({
           title: 'Class Starting Soon',
-          body: `Your "${classEntry.subjectName}" class starts afafdsafd ${classEntry.startTime.split(':').slice(0, 2).join(':')}`,
+          body: `Your "${subjectName}" class starts ${classEntry.startTime.split(':').slice(0, 2).join(':')}`,
           actions: [
             { action: 'attend', title: 'Yes, I will attend' },
             { action: 'skip', title: 'No, I will skip' }

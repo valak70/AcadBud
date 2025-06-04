@@ -1,17 +1,36 @@
 // src/pages/Dashboard.jsx
 import { useAuth } from '../context/AuthContext';
+import React from "react"; 
 
-export default function Dashboard() {
-  const { user, logout } = useAuth();
+const Dashboard = () => {
+  const { user } = useAuth();
+  // Dummy data – replace these with actual values from API or props
+  const totalCourses = user?.courses?.length || 0; // Assuming user.courses is an array of courses
+  const classesThisWeek = user?.timetable?.length || 0; // Assuming user.timetable is an array of timetable entries
+  const attendedThisWeek = totalCourses > 0 ? Math.floor(Math.random() * classesThisWeek) : 0;
+
   return (
-    <div className="p-4">
-      <h1 className="text-2xl font-bold">Welcome, {user?.name}</h1>
-      <button
-        onClick={logout}
-        className="mt-4 bg-red-500 text-white py-2 px-4 rounded"
-      >
-        Logout
-      </button>
+    <div className="p-6">
+      <h1 className="text-3xl font-bold mb-6">Dashboard</h1>
+
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+        <div className="bg-blue-100 rounded-2xl shadow-md p-6">
+          <h2 className="text-xl font-semibold text-blue-900">Total Courses</h2>
+          <p className="text-3xl font-bold mt-2">{totalCourses}</p>
+        </div>
+
+        <div className="bg-green-100 rounded-2xl shadow-md p-6">
+          <h2 className="text-xl font-semibold text-green-900">Classes This Week</h2>
+          <p className="text-3xl font-bold mt-2">{classesThisWeek}</p>
+        </div>
+
+        <div className="bg-yellow-100 rounded-2xl shadow-md p-6">
+          <h2 className="text-xl font-semibold text-yellow-900">Attended This Week</h2>
+          <p className="text-3xl font-bold mt-2">{attendedThisWeek}</p>
+        </div>
+      </div>
     </div>
   );
-}
+};
+
+export default Dashboard;
