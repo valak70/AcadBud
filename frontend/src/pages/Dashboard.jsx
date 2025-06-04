@@ -7,7 +7,7 @@ const Dashboard = () => {
   // Dummy data – replace these with actual values from API or props
   const totalCourses = user?.courses?.length || 0; // Assuming user.courses is an array of courses
   const classesThisWeek = user?.timetable?.length || 0; // Assuming user.timetable is an array of timetable entries
-  const attendedThisWeek = totalCourses > 0 ? Math.floor(Math.random() * classesThisWeek) : 0;
+  const attendedThisWeek = 5;
 
   return (
     <div className="p-6">
