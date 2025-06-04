@@ -48,14 +48,14 @@ jobs:
 
       - name: Copy docker-compose file to EC2
         run: |
-          scp -o StrictHostKeyChecking=no docker-compose.prod.yaml ${{ secrets.EC2_USER }}@${{ secrets.EC2_HOST }}:/home/${{ secrets.EC2_USER }}/docker-compose.prod.yaml
+          scp -o StrictHostKeyChecking=no docker-compose.prod.yml ${{ secrets.EC2_USER }}@${{ secrets.EC2_HOST }}:/home/${{ secrets.EC2_USER }}/docker-compose.prod.yml
 
       - name: Deploy on EC2 via SSH
         run: |
           ssh -o StrictHostKeyChecking=no ${{ secrets.EC2_USER }}@${{ secrets.EC2_HOST }} << 'EOF'
             docker pull ${{ secrets.DOCKER_USERNAME }}/acadbud-backend:latest
             docker pull ${{ secrets.DOCKER_USERNAME }}/acadbud-frontend:latest
-            docker-compose -f docker-compose.prod.yaml up -d
+            docker-compose -f docker-compose.prod.yml up -d
             docker image prune -f
           EOF
 
