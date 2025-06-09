@@ -11,6 +11,7 @@ import Attendance from "./pages/Attendance";
 import Layout from "./components/Layout";
 import { useEffect } from 'react';
 import { subscribeUser } from './utils/subscribe';
+import LandingPage from './pages/LandingPage';
 
 
 function App() {
@@ -22,6 +23,7 @@ function App() {
     <Router>
       <AuthProvider>
         <Routes>
+          <Route path="/" element = {<LandingPage/>}/>          
           <Route path="/login" element={<Login />} />
           <Route path='/register' element={<Register />} />
           <Route element={<ProtectedRoute><Layout /></ProtectedRoute>}>

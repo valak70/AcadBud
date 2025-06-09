@@ -1,6 +1,9 @@
 import { NavLink } from "react-router-dom";
+import { useState } from "react";
 
 const Sidebar = () => {
+  const [isOpen, setIsOpen] = useState(false);
+
   const links = [
     { to: "/dashboard", label: "Dashboard" },
     { to: "/courses", label: "Courses" },
@@ -9,44 +12,71 @@ const Sidebar = () => {
   ];
 
   return (
-    <aside className="w-64 h-screen bg-gray-900 text-white p-6">
-      {/* Original Logo as it was */}
-      <div className="flex items-center mb-6">
-      <div className="w-12 h-12 bg-indigo-600 rounded-full flex items-center justify-center mr-3">
-        <svg
-          className="w-6 h-6 text-white"
-          fill="none"
-          stroke="currentColor"
-          viewBox="0 0 24 24"
-        >
-          <path
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            strokeWidth={2}
-            d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
-          />
+    <>
+      {/* Hamburger button (visible only on mobile) */}
+      <button
+        onClick={() => setIsOpen(!isOpen)}
+        className="md:hidden fixed top-4 left-4 z-50 bg-blue-600 p-2 rounded text-white shadow"
+      >
+        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
         </svg>
-      </div>
+      </button>
 
-      <h2 className="text-2xl font-bold ">AcadBud</h2>
-      </div>
+      {/* Backdrop */}
+      {isOpen && (
+        <div
+          onClick={() => setIsOpen(false)}
+          className="md:hidden fixed inset-0 bg-black bg-opacity-30 z-40"
+        />
+      )}
 
-      <nav className="space-y-4">
-        {links.map((link) => (
-          <NavLink
-            key={link.to}
-            to={link.to}
-            className={({ isActive }) =>
-              `block px-3 py-2 rounded hover:bg-gray-800 ${
-                isActive ? "bg-indigo-500 font-semibold" : ""
-              }`
-            }
-          >
-            {link.label}
-          </NavLink>
-        ))}
-      </nav>
-    </aside>
+      {/* Sidebar */}
+      <aside
+        className={`fixed md:static top-0 left-0 z-50 h-screen w-64 bg-blue-50 text-blue-700 p-6 transform transition-transform duration-300 ease-in-out
+        ${isOpen ? "translate-x-0" : "-translate-x-full"} md:translate-x-0`}
+      >
+        {/* Logo */}
+        <div className="flex items-center mb-6">
+          <div className="w-12 h-12 bg-blue-600 rounded-full flex items-center justify-center mr-3">
+            <svg
+              className="w-6 h-6 text-white"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
+              />
+            </svg>
+          </div>
+          <h2 className="text-2xl font-bold text-blue-700">AcadBud</h2>
+        </div>
+
+        {/* Navigation */}
+        <nav className="space-y-4">
+          {links.map((link) => (
+            <NavLink
+              key={link.to}
+              to={link.to}
+              onClick={() => setIsOpen(false)}
+              className={({ isActive }) =>
+                `block px-4 py-2 rounded-xl transition-all duration-150 ${
+                  isActive
+                    ? "bg-blue-200 text-gray-800 font-semibold"
+                    : "hover:bg-blue-100 text-gray-700"
+                }`
+              }
+            >
+              {link.label}
+            </NavLink>
+          ))}
+        </nav>
+      </aside>
+    </>
   );
 };
 
