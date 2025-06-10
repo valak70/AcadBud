@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { timeSlots, daysOfWeek, getColorForCourse } from "../utils/timetableUtils";
+import { timeSlots, daysOfWeek,  getColorFromId } from "../utils/timetableUtils";
 
 const TimetableGrid = ({ entries, courses, onDeleteEntry, onDeleteAllByCourse }) => {
   const [activeCell, setActiveCell] = useState(null);
@@ -65,14 +65,13 @@ const TimetableGrid = ({ entries, courses, onDeleteEntry, onDeleteAllByCourse })
                   if (entry) {
                     const course = getCourseById(entry.courseId);
                     const isActive = activeCell === cellKey;
-
+                    const color = getColorFromId(entry.courseId);
                     return (
                       <td
                         key={slot}
-                        className="relative border text-center text-xs cursor-pointer overflow-visible"
+                        className={`relative border text-center text-xs cursor-pointer overflow-visible ${color}`}
                         style={{
-                          backgroundColor: getColorForCourse(entry.courseId),
-                          color: "white",
+                          color: "black",
                           minWidth: "100px",
                         }}
                         onClick={(e) => {
@@ -81,9 +80,9 @@ const TimetableGrid = ({ entries, courses, onDeleteEntry, onDeleteAllByCourse })
                         }}
                       >
                         <div className="py-3">
-  <div className="font-semibold">{course?.subjectName}</div>
-  <div className="text-[0.7rem]">{course?.subjectCode}</div>
-</div>
+                          <div className="font-semibold">{course?.subjectName}</div>
+                          <div className="text-[0.7rem]">{course?.subjectCode}</div>
+                        </div>
 
                         {isActive && (
                           <div

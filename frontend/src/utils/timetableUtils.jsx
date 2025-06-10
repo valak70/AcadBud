@@ -14,24 +14,28 @@ export const timeSlots = Array.from({ length: 9 }, (_, i) => {
   return `${start}:00 - ${end}:00`;
 });
 
-const colorPalette = [
-  "#6B5B95", // Purple Gray
-  "#FF6F61", // Coral
-  "#88B04B", // Olive Green
-  "#D65076", // Deep Pink (replacement)
-  "#3E78B2", // Bold Blue (replacement)
-  "#955251", // Dusty Rose
-  "#B565A7", // Orchid
-  "#009B77", // Teal Green
+
+
+const cardColors = [
+  "bg-green-100",   // Existing
+  "bg-yellow-100",  // Existing
+  "bg-pink-100",    // Existing
+  "bg-purple-100",  // Existing
+  "bg-teal-100",    // Existing
+  "bg-indigo-100",  // Existing
+  "bg-rose-100",    // Existing
+  "bg-cyan-100",    // Existing
+  "bg-sky-100",     // Light sky blue
 ];
 
-
 const courseColorMap = new Map();
-
-export const getColorForCourse = (courseId) => {
-  if (!courseColorMap.has(courseId)) {
-    const color = colorPalette[courseColorMap.size % colorPalette.length];
-    courseColorMap.set(courseId, color);
+export const getColorFromId = (id) => {
+  
+  if (!courseColorMap.has(id)) {
+    const color = cardColors[courseColorMap.size % cardColors.length];
+    courseColorMap.set(id, color);
   }
-  return courseColorMap.get(courseId);
+  
+  return courseColorMap.get(id);
 };
+

@@ -7,7 +7,7 @@ const Layout = () => {
   const { user, logout } = useAuth();
   const [isOpen, setIsOpen] = useState(false);
   return (
-    <div className="flex min-h-screen bg-blue-100">
+    <div className="flex min-h-screen ">
   {/* Sidebar */}
   <Sidebar isOpen={isOpen} setIsOpen={setIsOpen} />
 
