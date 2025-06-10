@@ -3,7 +3,27 @@ import { Link } from "react-router-dom";
 export default function LandingPage() {
   return (
     <div className="min-h-screen flex flex-col items-center justify-center bg-gradient-to-br from-blue-50 to-blue-100 px-4 text-center">
-      <h1 className="text-4xl md:text-6xl font-bold text-blue-700 mb-4">AcadBud</h1>
+      <div className="flex gap-4">
+        <div className="flex items-center mb-4">
+          <div className="w-14 h-14 bg-blue-600 rounded-full flex items-center justify-center mr-3">
+            <svg
+              className="w-7 h-7 text-white"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
+              />
+            </svg>
+          </div>
+          <h1 className="text-4xl md:text-6xl font-bold text-blue-700">AcadBud</h1>
+        </div>
+      </div>
+      {/* <h1 className="text-4xl md:text-6xl font-bold text-blue-700 mb-4">AcadBud</h1> */}
       <p className="text-lg md:text-xl text-gray-700 mb-8 max-w-xl">
         Your all-in-one academic companion. Track attendance, manage courses, and stay on top of your academic goals effortlessly.
       </p>
