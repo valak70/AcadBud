@@ -1,8 +1,8 @@
 import { NavLink } from "react-router-dom";
 import { useState } from "react";
 
-const Sidebar = () => {
-  const [isOpen, setIsOpen] = useState(false);
+const Sidebar = ({ isOpen, setIsOpen }) => {
+  // const [isOpen, setIsOpen] = useState(false);
 
   const links = [
     { to: "/dashboard", label: "Dashboard" },
@@ -14,14 +14,7 @@ const Sidebar = () => {
   return (
     <>
       {/* Hamburger button (visible only on mobile) */}
-      <button
-        onClick={() => setIsOpen(!isOpen)}
-        className="md:hidden fixed top-4 left-4 z-50 bg-blue-600 p-2 rounded text-white shadow"
-      >
-        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
-        </svg>
-      </button>
+      
 
       {/* Backdrop */}
       {isOpen && (
