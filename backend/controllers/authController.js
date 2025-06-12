@@ -21,7 +21,7 @@ exports.register = async (req, res) => {
     const emailToken = jwt.sign({ id: user._id }, process.env.EMAIL_SECRET);
 
     // Send verification email
-    const verifyURL = `${process.env.FRONTEND_URL}/verify-email?token=${emailToken}`;
+    const verifyURL = `${process.env.FRONTEND_URL}/auth/verify-email?token=${emailToken}`;
     await sendVerificationEmail(user.email, user.name, verifyURL);
 
     res.status(200).json({ message: 'Registration successful. Please verify your email.' });

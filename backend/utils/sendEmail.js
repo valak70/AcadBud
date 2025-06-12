@@ -35,20 +35,21 @@ exports.sendVerificationEmail = async (to, name, url) => {
             from: `"AcadBud" <${process.env.EMAIL_USER}>`,
             to,
             subject: 'Verify your email address',
-            text: `
-                Hello ${name},
+            html: `
+    <p>Hello ${name},</p>
+    
+    <p>Thank you for registering with <strong>AcadBud</strong>!</p>
+    
+    <p>Please verify your email address by clicking the link below:</p>
+    
+    <p><a href="${url}" style="color: blue; text-decoration: underline;">Verify Email</a></p>
+    
+    <p>If you did not sign up for this account, you can ignore this email.</p>
+    
+    <p>- The AcadBud Team</p>
+  `
+        });
 
-                Thank you for registering with AcadBud!
-
-                Please verify your email address by clicking the link below:
-
-                ${url}
-
-                If you did not sign up for this account, you can ignore this email.
-
-                - The AcadBud Team
-                `
-            });
 
     } catch (error) {
         throw new Error("Failed to send verification email.");
