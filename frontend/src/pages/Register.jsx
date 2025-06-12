@@ -24,9 +24,9 @@ const Register = () => {
                 { withCredentials: true }
             );
             setUser(res.data.user);
-              navigate("/dashboard");
+              navigate("/verify-email");
         } catch (err) {
-            setError(err.response?.data?.message || "Register failed");
+            setError(err.response?.data?.error || "Register failed");
         }
     };
 

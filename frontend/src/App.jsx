@@ -12,6 +12,7 @@ import Layout from "./components/Layout";
 import { useEffect } from 'react';
 import { subscribeUser } from './utils/subscribe';
 import LandingPage from './pages/LandingPage';
+import VerifyEmail from './pages/VerifyEmail';
 
 
 function App() {
@@ -26,6 +27,7 @@ function App() {
           <Route path="/" element = {<LandingPage/>}/>          
           <Route path="/login" element={<Login />} />
           <Route path='/register' element={<Register />} />
+          <Route path='/verify-email' element={<VerifyEmail/>}/>
           <Route element={<ProtectedRoute><Layout /></ProtectedRoute>}>
             <Route path="/dashboard" element={<Dashboard />} />
             <Route path="/courses" element={<Courses />} />

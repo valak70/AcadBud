@@ -4,7 +4,7 @@ const userSchema = new mongoose.Schema({
   name: { type: String, required: true },
   email: { type: String, required: true, unique: true },
   passwordHash: { type: String, required: true },
-
+  isVerified: { type: Boolean, default: false },
   timetable: [{
     day: { type: String, required: true },
     courseId: { type: mongoose.Schema.Types.ObjectId, required: true },
