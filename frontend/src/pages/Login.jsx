@@ -81,7 +81,9 @@ const Login = () => {
                                 className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition"
                             />
                         </div>
-
+                        {/* <div className="text-sm text-gray-500"> */}
+                            <a href="/forgot-password" className="ml-9 text-sm font-medium text-indigo-600 hover:text-indigo-500">Forgot password?</a>
+                        {/* </div> */}
                         <div className="pt-4 mx-auto w-4/5">
                             <button
                                 type="submit"

@@ -1,7 +1,7 @@
 const User = require('../models/User');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
-const { sendVerificationEmail } = require('../utils/sendEmail');
+const { sendVerificationEmail, sendResetEmail } = require('../utils/sendEmail');
 
 exports.register = async (req, res) => {
   const { name, email, password } = req.body;
@@ -21,7 +21,7 @@ exports.register = async (req, res) => {
     const emailToken = jwt.sign({ id: user._id }, process.env.EMAIL_SECRET);
 
     // Send verification email
-    const verifyURL = `${process.env.FRONTEND_URL}/auth/verify-email?token=${emailToken}`;
+    const verifyURL = `${process.env.FRONTEND_URL}/api/auth/verify-email?token=${emailToken}`;
     await sendVerificationEmail(user.email, user.name, verifyURL);
 
     res.status(200).json({ message: 'Registration successful. Please verify your email.' });
@@ -86,3 +86,28 @@ exports.verifyEmail = async (req,res) =>{
    }
 
 }
+
+exports.forgotPassword = async (req, res) => {
+  const { email } = req.body;
+  const user = await User.findOne({ email });
+  if (!user) return res.status(400).json({ error: "User not found" });
+
+  const token = jwt.sign({ id: user._id }, process.env.RESET_SECRET, { expiresIn: "15m" });
+  const resetLink = `${process.env.FRONTEND_URL}/reset-password?token=${token}`;
+  
+  await sendResetEmail(user.email, user.name, resetLink);
+  res.json({ message: "Password reset link sent to email." });
+};
+
+
+exports.resetPassword = async (req, res) => {
+  const { token, newPassword } = req.body;
+  try {
+    const decoded = jwt.verify(token, process.env.RESET_SECRET);
+    const hash = await bcrypt.hash(newPassword, 10);
+    await User.findByIdAndUpdate(decoded.id, { passwordHash: hash });
+    res.json({ message: "Password reset successful" });
+  } catch (err) {
+    res.status(400).json({ error: "Invalid or expired token" });
+  }
+};
