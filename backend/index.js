@@ -16,6 +16,7 @@ const attendanceRoutes = require('./routes/attendanceRoutes');
 const gpaRoutes = require('./routes/gpaRoutes');
 const courseRoutes = require('./routes/courseRoutes');
 const subscriptionRoutes = require('./routes/subscriptionRoutes');
+const client = require('./utils/redis');
 
 const app = express();
 
@@ -55,8 +56,7 @@ const startServer = async () => {
   
   startServer();
 
-
-cron.schedule('* * * * *', () => {
-  checkAndSendNotifications();
-  console.log('Checking for classes');
-});
+// cron.schedule('* * * * *', () => {
+//   checkAndSendNotifications();
+//   console.log('Checking for classes');
+// });
