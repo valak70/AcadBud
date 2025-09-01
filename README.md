@@ -1,7 +1,7 @@
 # 📚 AcadBud
 
 AcadBud is a **smart academic tracker** designed to help students stay on top of their academics.  
-It provides **course management, timetable tracking, attendance insights, and push notifications** for upcoming classes — all in one clean dashboard.
+It provides **course management, timetable, attendance tracking, attendance insights, GPA calculation and push notifications** for upcoming classes — all in one clean dashboard.
 
 ---
 
@@ -118,3 +118,4 @@ Feel free to fork this repo and open a PR.
 **Aryan Agrahari**  
 - 💼 [LinkedIn](https://www.linkedin.com/in/valak70/)  
 - 💻 [GitHub](https://github.com/valak70)  
+
