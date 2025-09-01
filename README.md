@@ -6,7 +6,8 @@ It provides **course management, timetable, attendance tracking, attendance insi
 ---
 
 ## ✨ Features
-
+- 📊 **GPA Calculation** – Track and calculate your GPA easily.
+- 📌 **Attendance Tracking** – Maintain and monitor attendance records for each subject.
 - 📅 **Timetable & Push Notifications** – Never miss a class with reminders for upcoming lectures.
 - 🎯 **Smart Attendance Tracking** – Know exactly how many classes you can miss while staying above the attendance threshold.
 - 🔐 **Authentication & Security**
@@ -118,4 +119,5 @@ Feel free to fork this repo and open a PR.
 **Aryan Agrahari**  
 - 💼 [LinkedIn](https://www.linkedin.com/in/valak70/)  
 - 💻 [GitHub](https://github.com/valak70)  
+
 
